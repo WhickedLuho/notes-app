@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  php:
+    build:
+      context: ./docker/php
+    volumes:
+      - .:/var/www
+      - .env:/var/www/.env:ro #ro read only
+    working_dir: /var/www
+    depends_on:
+      - mysql
+    networks:
+      - appnet
+
+  nginx:
+    image: nginx:latest
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - php
+    networks:
+      - appnet
+
+  mysql:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: app
+      MYSQL_USER: dev_user
+      MYSQL_PASSWORD: test
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - appnet
+
+  adminer:
+    build:
+      context: ./docker/adminer
+    image: custom_adminer:latest
+    restart: always
+    ports:
+      - "8081:8080"
+    networks:
+      - appnet
+
+  composer:
+    image: composer:latest
+    volumes:
+      - .:/app
+    working_dir: /app
+    entrypoint: ["composer"]
+    networks:
+      - appnet
+
+volumes:
+  db_data:
+
+networks:
+  appnet:

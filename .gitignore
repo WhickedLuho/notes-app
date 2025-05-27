@@ -1,0 +1,53 @@
+# OS-specifikus fájlok
+.DS_Store
+Thumbs.db
+
+# Környezeti fájlok
+.env
+.env.local
+.env.backup
+
+# Composer
+/vendor/
+/composer.lock
+
+# Smarty cache
+/storage/smarty/cache/
+/storage/smarty/templates_c/
+storage/cache/smarty_compiled/*
+# Log fájlok
+/storage/logs/
+*.log
+
+# PHP/IDE fájlok
+*.bak
+*.tmp
+*.swp
+*.swo
+*.idea/
+.vscode/
+
+# Nginx / PHP build file-ok (ha vannak ideiglenesek)
+docker/php/*.log
+docker/php/*.sock
+
+# Node (ha használsz frontendes buildet később)
+node_modules/
+dist/
+npm-debug.log
+yarn-error.log
+
+# Docker volume mount / cache (ha lenne ilyen)
+docker/mysql/data/
+docker/cache/
+
+# PHPUnit vagy egyéb testek
+phpunit.xml
+phpunit.result.cache
+tests/_output/
+
+# Backup vagy export fájlok
+*.sql
+*.sql.gz
+*.zip
+

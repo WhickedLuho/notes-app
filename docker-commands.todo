@@ -1,0 +1,50 @@
+| Parancs             | Jelentés                                   |
+| ------------------- | ------------------------------------------ |
+| `docker --version`  | Docker verzió lekérdezése                  |
+| `docker ps`         | Futtatott konténerek listája               |
+| `docker ps -a`      | Minden konténer (beleértve leállítottakat) |
+| `docker images`     | Letöltött képek listázása                  |
+| `docker volume ls`  | Volume-ok listázása                        |
+| `docker network ls` | Hálózatok listázása                        |
+
+
+| Parancs                            | Jelentés                          |
+| ---------------------------------- | --------------------------------- |
+| `docker start <container>`         | Leállított konténer indítása      |
+| `docker stop <container>`          | Futó konténer leállítása          |
+| `docker restart <container>`       | Konténer újraindítása             |
+| `docker rm <container>`            | Konténer törlése                  |
+| `docker logs <container>`          | Konténer naplók                   |
+| `docker exec -it <container> bash` | Belépés a konténerbe bash-el      |
+| `docker exec -it <container> sh`   | Belépés (sh shell, ha nincs bash) |
+
+
+| Parancs                   | Jelentés                         |
+| ------------------------- | -------------------------------- |
+| `docker pull <image>`     | Kép letöltése Docker Hub-ról     |
+| `docker build -t <tag> .` | Kép építése a jelenlegi mappából |
+| `docker rmi <image>`      | Kép törlése                      |
+
+
+| Parancs                              | Jelentés                                        |
+| ------------------------------------ | ----------------------------------------------- |
+| `docker-compose up`                  | Alapértelmezett `docker-compose.yml` elindítása |
+| `docker-compose up -d`               | Háttérben (detached módban) indítás             |
+| `docker-compose down`                | Minden konténer leállítása és törlése           |
+| `docker-compose restart`             | Összes konténer újraindítása                    |
+| `docker-compose exec <service> bash` | Bash belépés adott service-be                   |
+| `docker-compose build`               | Újraépíti a Docker képeket                      |
+| `docker-compose logs -f`             | Folyamatos log követés                          |
+| `docker-compose ps`                  | Futó service-ek állapota                        |
+
+
+| Parancs                  | Jelentés                                                 |
+| ------------------------ | -------------------------------------------------------- |
+| `docker system prune`    | Minden nem használt erőforrás törlése (interaktív)       |
+| `docker system prune -a` | MINDEN törlése (képek, konténerek, volume-ok, hálózatok) |
+| `docker volume prune`    | Nem használt volume-ok törlése                           |
+| `docker image prune`     | Nem használt képek törlése                               |
+
+New project:
+docker compose up --build -d
+docker compose run --rm composer install
