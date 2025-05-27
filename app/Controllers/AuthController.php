@@ -53,6 +53,7 @@ class AuthController extends BaseController
     public function register()
     {
         $this->verifyCsrfToken($_POST['csrf_token'] ?? '');
+        // TODO if for some reason user doesnt successfully registered the token throws an error.
 
         try {
             $user = $this->authService->registerUser([
