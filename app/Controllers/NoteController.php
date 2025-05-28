@@ -167,8 +167,15 @@ class NoteController extends BaseController
         $note = null;
 
         if (!empty($params['id'])) {
-            $note = $noteModel->getById($params['id'], $_SESSION['user']['id']);
+            $note = $noteModel->getById($params['id'], $this->user->id);
         }
+
+        $note = [
+            'id' => 2,
+            'title' => 'Második jegyzet',
+            'content' => 'Egy másik jegyzet valami fontos gondolattal.',
+            'color' => '#d1ecf1',
+        ];
 
         // $this->render('notes/edit.tpl', ['note' => $note]);
         $this->smarty->assign([
@@ -176,7 +183,6 @@ class NoteController extends BaseController
             'activePage' => 'notes',
         ]);
         $this->smarty->display('notes/edit.tpl');
-
     }
 
     public function save($post)
