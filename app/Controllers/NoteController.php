@@ -26,13 +26,137 @@ class NoteController extends BaseController
                 'content' => '✔ Feladat A\n✔ Feladat B\n✖ Feladat C',
                 'color' => '#fff3cd',
             ],
+            [
+                'id' => 1,
+                'title' => 'Első jegyzet',
+                'content' => 'Ez egy példa jegyzet tartalma.',
+                'color' => '#f8d7da',
+            ],
+            [
+                'id' => 2,
+                'title' => 'Második jegyzet',
+                'content' => 'Egy másik jegyzet valami fontos gondolattal.',
+                'color' => '#d1ecf1',
+            ],
+            [
+                'id' => 3,
+                'title' => 'TODO lista',
+                'content' => '✔ Feladat A\n✔ Feladat B\n✖ Feladat C',
+                'color' => '#fff3cd',
+            ],
+            [
+                'id' => 1,
+                'title' => 'Első jegyzet',
+                'content' => 'Ez egy példa jegyzet tartalma.',
+                'color' => '#f8d7da',
+            ],
+            [
+                'id' => 2,
+                'title' => 'Második jegyzet',
+                'content' => 'Egy másik jegyzet valami fontos gondolattal.',
+                'color' => '#d1ecf1',
+            ],
+            [
+                'id' => 3,
+                'title' => 'TODO lista',
+                'content' => '✔ Feladat A\n✔ Feladat B\n✖ Feladat C',
+                'color' => '#fff3cd',
+            ],
+            [
+                'id' => 1,
+                'title' => 'Első jegyzet',
+                'content' => 'Ez egy példa jegyzet tartalma.',
+                'color' => '#f8d7da',
+            ],
+            [
+                'id' => 2,
+                'title' => 'Második jegyzet',
+                'content' => 'Egy másik jegyzet valami fontos gondolattal.',
+                'color' => '#d1ecf1',
+            ],
+            [
+                'id' => 3,
+                'title' => 'TODO lista',
+                'content' => '✔ Feladat A\n✔ Feladat B\n✖ Feladat C',
+                'color' => '#fff3cd',
+            ],
+            [
+                'id' => 1,
+                'title' => 'Első jegyzet',
+                'content' => 'Ez egy példa jegyzet tartalma.',
+                'color' => '#f8d7da',
+            ],
+            [
+                'id' => 2,
+                'title' => 'Második jegyzet',
+                'content' => 'Egy másik jegyzet valami fontos gondolattal.',
+                'color' => '#d1ecf1',
+            ],
+            [
+                'id' => 3,
+                'title' => 'TODO lista',
+                'content' => '✔ Feladat A\n✔ Feladat B\n✖ Feladat C',
+                'color' => '#fff3cd',
+            ],
+            [
+                'id' => 1,
+                'title' => 'Első jegyzet',
+                'content' => 'Ez egy példa jegyzet tartalma.',
+                'color' => '#f8d7da',
+            ],
+            [
+                'id' => 2,
+                'title' => 'Második jegyzet',
+                'content' => 'Egy másik jegyzet valami fontos gondolattal.',
+                'color' => '#d1ecf1',
+            ],
+            [
+                'id' => 3,
+                'title' => 'TODO lista',
+                'content' => '✔ Feladat A\n✔ Feladat B\n✖ Feladat C',
+                'color' => '#fff3cd',
+            ],
+            [
+                'id' => 1,
+                'title' => 'Első jegyzet',
+                'content' => 'Ez egy példa jegyzet tartalma.',
+                'color' => '#f8d7da',
+            ],
+            [
+                'id' => 2,
+                'title' => 'Második jegyzet',
+                'content' => 'Egy másik jegyzet valami fontos gondolattal.',
+                'color' => '#d1ecf1',
+            ],
+            [
+                'id' => 3,
+                'title' => 'TODO lista',
+                'content' => '✔ Feladat A\n✔ Feladat B\n✖ Feladat C',
+                'color' => '#fff3cd',
+            ],
+            [
+                'id' => 1,
+                'title' => 'Első jegyzet',
+                'content' => 'Ez egy példa jegyzet tartalma.',
+                'color' => '#f8d7da',
+            ],
+            [
+                'id' => 2,
+                'title' => 'Második jegyzet',
+                'content' => 'Egy másik jegyzet valami fontos gondolattal.',
+                'color' => '#d1ecf1',
+            ],
+            [
+                'id' => 3,
+                'title' => 'TODO lista',
+                'content' => '✔ Feladat A\n✔ Feladat B\n✖ Feladat C',
+                'color' => '#fff3cd',
+            ],
         ];
-        $user = $_SESSION['user'] ?? null;
 
         $this->smarty->assign([
             'notes' => $notes,
-            'user' => $user,
-            'activePage' => 'notes'
+            'activePage' => 'notes',
         ]);
         $this->smarty->display('notes/list.tpl');
     }
@@ -46,7 +170,13 @@ class NoteController extends BaseController
             $note = $noteModel->getById($params['id'], $_SESSION['user']['id']);
         }
 
-        $this->render('notes/form.tpl', ['note' => $note]);
+        // $this->render('notes/edit.tpl', ['note' => $note]);
+        $this->smarty->assign([
+            'note' => $note,
+            'activePage' => 'notes',
+        ]);
+        $this->smarty->display('notes/edit.tpl');
+
     }
 
     public function save($post)

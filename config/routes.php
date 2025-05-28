@@ -18,8 +18,13 @@ return [
         [DashboardController::class, 'index'],
         [AuthMiddleware::class],
     ],
+    // Notes routes
     ['GET', '/notes',
         [NoteController::class, 'list'],
+        [AuthMiddleware::class],
+    ],
+    ['GET', '/notes/edit/{id}',
+        [NoteController::class, 'edit'],
         [AuthMiddleware::class],
     ],
     // Simple closure route
