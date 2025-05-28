@@ -1,11 +1,21 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
 
+// Default timezone
+date_default_timezone_set('Europe/Budapest');
+
+// Character encoding
+mb_internal_encoding('UTF-8');
+mb_http_output('UTF-8');
+
+// Locale (optional, hasznos lehet dátumokhoz, pénznemhez, stb.)
+// setlocale(LC_ALL, 'hu_HU.UTF-8');
+
 // 1. Load routes
 $routes = require __DIR__ . '/../config/routes.php';
 
-// var_export($_SESSION);
-// echo "<br />";
+// 1.1 Load helpers
+require __DIR__ . '/../config/helpers.php';
 
 // 2. Initialize FastRoute
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) use ($routes) {
@@ -54,7 +64,7 @@ switch ($routeInfo[0]) {
             }
             $handler = $handler['handler']; // Get the actual handler
         }
-        
+
         // Call the final handler
         if (is_callable($handler)) {
             echo $handler($vars);

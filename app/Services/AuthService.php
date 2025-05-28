@@ -23,7 +23,7 @@ class AuthService
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($data) {
             $user = new User($this->db);
-            $user->fill($data); // Ez lehet egy saját metódus, ami betölti az attribútumokat
+            $user->fill($data);
             return $user;
         }
 

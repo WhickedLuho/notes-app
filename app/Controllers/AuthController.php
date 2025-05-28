@@ -18,7 +18,10 @@ class AuthController extends BaseController
     // Show login form
     public function showLogin()
     {
-        $this->smarty->assign('csrf_token', $this->generateCsrfToken());
+        $this->smarty->assign([
+            'csrf_token' => $this->generateCsrfToken(),
+            'activePage' => 'login'
+        ]);
         $this->smarty->display('auth/login.tpl');
     }
 
@@ -34,7 +37,7 @@ class AuthController extends BaseController
 
         if ($user) {
             SessionService::login($user);
-            header('Location: /notes/list');
+            header('Location: /dashboard');
             exit;
         } else {
             $this->smarty->assign('error', 'Invalid credentials');
@@ -45,7 +48,10 @@ class AuthController extends BaseController
     // Show registration form
     public function showRegister()
     {
-        $this->smarty->assign('csrf_token', $this->generateCsrfToken());
+        $this->smarty->assign([
+            'csrf_token', $this->generateCsrfToken(),
+            'activePage' => 'register'
+        ]);
         $this->smarty->display('auth/register.tpl');
     }
 

@@ -4,10 +4,16 @@
     {include file='layouts/header.tpl'}
 </head>
 <body>
-    {include file='layouts/navbar.tpl'}
+    {if !empty($user)}
+        {include file='layouts/navbar.tpl'}
+    {/if}
 
-    <main class="container">
-        {block name='content'}{/block}  <!-- Content placeholder -->
+    <main class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-md-10 offset-md-2">
+                {block name='content'}{/block}
+            </div>
+        </div>
     </main>
 
     {include file='layouts/footer.tpl'}

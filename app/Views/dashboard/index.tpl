@@ -2,20 +2,20 @@
 
 {block name='title'}Dashboard{/block}
 
-{block name='head_css'}
+{* {block name='head_css'}
 <link href="/assets/css/dashboard.css" rel="stylesheet">
-{/block}
+{/block} *}
 
 {block name='content'}
 <div class="row my-4">
     <div class="col-md-12">
-        <h2>Welcome, {$user.fullname}!</h2>
+        <h2>Welcome, {$user.nickname}!</h2>
         <p class="text-muted">Here's a quick overview of your activity.</p>
     </div>
 </div>
 
 <div class="row text-center">
-    <div class="col-md-3">
+    <div class="col-lg-3 col-md-6 col-sm-6">
         <div class="card bg-light border-0 shadow-sm">
             <div class="card-body">
                 <h5 class="card-title">Total Notes</h5>
@@ -23,7 +23,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-lg-3  col-md-6 col-sm-6">
         <div class="card bg-light border-0 shadow-sm">
             <div class="card-body">
                 <h5 class="card-title">Pinned</h5>
@@ -31,7 +31,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-lg-3  col-md-6 col-sm-6">
         <div class="card bg-light border-0 shadow-sm">
             <div class="card-body">
                 <h5 class="card-title">Archived</h5>
@@ -39,7 +39,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-3">
+    <div class="col-lg-3  col-md-6 col-sm-6">
         <div class="card bg-light border-0 shadow-sm">
             <div class="card-body">
                 <h5 class="card-title">Tags</h5>
@@ -70,8 +70,8 @@
 
     <div class="col-md-6">
         <h4>Pinned Notes</h4>
-        {if $pinned_notes|@count > 0}
-            {foreach from=$pinned_notes item=note}
+        {if $pinnedNotes|@count > 0}
+            {foreach from=$pinnedNotes item=note}
                 <div class="card mb-2" style="background-color: {$note.color};">
                     <div class="card-body">
                         <h5 class="card-title">{$note.title}</h5>

@@ -92,4 +92,25 @@ abstract class BaseModel
             }
         }
     }
+
+    public function toArray(array $exclude = ['db', 'password_hash', 'remember_token']): array
+    {
+        $array = [];
+        $reflection = new \ReflectionClass($this); // <- Globális osztály!
+        $properties = $reflection->getProperties(
+            \ReflectionProperty::IS_PRIVATE | \ReflectionProperty::IS_PROTECTED | \ReflectionProperty::IS_PUBLIC
+        );
+
+        foreach ($properties as $prop) {
+            $prop->setAccessible(true);
+            $name = $prop->getName();
+
+            if (!in_array($name, $exclude)) {
+                $array[$name] = $prop->getValue($this);
+            }
+        }
+
+        return $array;
+    }
+
 }

@@ -3,13 +3,38 @@ namespace App\Controllers;
 
 use App\Models\Note;
 
-class NoteController extends Controller
+class NoteController extends BaseController
 {
     public function list()
     {
-        $noteModel = new Note($this->db);
-        $notes = $noteModel->getAllByUser($_SESSION['user']['id']);
-        $this->render('notes/list.tpl', ['notes' => $notes]);
+        $notes = [
+            [
+                'id' => 1,
+                'title' => 'Első jegyzet',
+                'content' => 'Ez egy példa jegyzet tartalma.',
+                'color' => '#f8d7da',
+            ],
+            [
+                'id' => 2,
+                'title' => 'Második jegyzet',
+                'content' => 'Egy másik jegyzet valami fontos gondolattal.',
+                'color' => '#d1ecf1',
+            ],
+            [
+                'id' => 3,
+                'title' => 'TODO lista',
+                'content' => '✔ Feladat A\n✔ Feladat B\n✖ Feladat C',
+                'color' => '#fff3cd',
+            ],
+        ];
+        $user = $_SESSION['user'] ?? null;
+
+        $this->smarty->assign([
+            'notes' => $notes,
+            'user' => $user,
+            'activePage' => 'notes'
+        ]);
+        $this->smarty->display('notes/list.tpl');
     }
 
     public function edit($params)

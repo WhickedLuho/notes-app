@@ -1,0 +1,26 @@
+@media (min-width: 768px) {
+    main {
+        margin-left: 250px;
+        /* ugyanannyi, mint a sidebar */
+    }
+}
+
+aside {
+    z-index: 1030;
+    /* Biztosítsd, hogy ne csússzon rá semmi */
+    border-right: 1px solid #ddd;
+}
+
+main {
+    padding: 2rem;
+}
+
+footer {
+    margin-left: 0;
+}
+
+@media (min-width: 768px) {
+    footer {
+        margin-left: 250px;
+    }
+}

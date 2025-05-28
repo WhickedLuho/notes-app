@@ -3,6 +3,8 @@ use App\Middleware\AuthMiddleware;
 
 use App\Controllers\AuthController;
 use App\Controllers\HomeController;
+use App\Controllers\DashboardController;
+use App\Controllers\NoteController;
 
 return [
     // Auth routes
@@ -12,7 +14,14 @@ return [
     ['POST', '/register', [AuthController::class, 'register']],
     ['GET', '/logout', [AuthController::class, 'logout']],
 
-
+    ['GET', '/dashboard', 
+        [DashboardController::class, 'index'],
+        [AuthMiddleware::class],
+    ],
+    ['GET', '/notes',
+        [NoteController::class, 'list'],
+        [AuthMiddleware::class],
+    ],
     // Simple closure route
     // ['GET', '/', function() {
     //     return "Hello from your notes app!";

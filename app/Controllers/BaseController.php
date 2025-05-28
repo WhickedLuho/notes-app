@@ -6,17 +6,24 @@ use PDO;
 use PDOException;
 use Dotenv\Dotenv;
 use App\Services\SessionService;
+use App\Helpers\DebugHelper;
+use App\Models\User;
 
 class BaseController
 {
     protected $db;
     protected $smarty;
+    protected $user;
 
     public function __construct()
     {
         $this->loadEnv();
         $this->initDb();
         $this->initSmarty();
+        $this->debuggerCheck();
+
+        // User management
+        $this->checkAuth();
     }
 
     protected function loadEnv(): void
@@ -68,10 +75,23 @@ class BaseController
         // Enable debugging (temporary)
         // $this->smarty->setDebugging(true);
         $this->smarty->error_reporting = E_ALL;
-        
-        // echo '<pre>Is logged in: ' . SessionService::isLoggedIn() . '</pre>';
 
-        $this->smarty->assign('app_name', $_ENV['APP_NAME']);
+        $this->smarty->assign([
+            'app_name' => $_ENV['APP_NAME'],
+        ]);
+    }
+
+    private function debuggerCheck(): void
+    {
+        DebugHelper::disable();
+
+        // Only enable in development
+        if ($_ENV['APP_STATUS'] == 'development') {
+            DebugHelper::enable();
+            // Full error reporting (dev only)
+            error_reporting(E_ALL);
+            ini_set('display_errors', '1');
+        }
     }
 
     protected function jsonResponse(array $data, int $status = 200): void
@@ -84,10 +104,29 @@ class BaseController
 
     protected function checkAuth(): void
     {
-        if (!isset($_SESSION['user'])) {
+        if (SessionService::isLoggedIn() && !empty($_SESSION['user_id'])) {
+            // So we have a logged in user
+            $this->getUser();
+        }
+    }
+
+    private function getUser(): void 
+    {
+        $userModel = new User($this->db);
+        $user = $userModel->findActiveById($_SESSION['user_id']);
+
+        if (!$user) {
+            SessionService::logout();
             header('Location: /login');
             exit;
         }
+
+        $this->user = $user;
+        // debug($user->toArray(), 'user stuff', true, true);
+
+        $this->smarty->assign([
+            'user' => $this->user->toArray(),
+        ]);
     }
 
     protected function generateCsrfToken(): string
@@ -105,7 +144,7 @@ class BaseController
         if (!isset($_SESSION['csrf_token']) || $_SESSION['csrf_token'] !== $token) {
             throw new \Exception("Invalid CSRF token");
         }
-        // unset($_SESSION['csrf_token']); // token egyszervas
+        // unset($_SESSION['csrf_token']); // TODO
     }
 
 }
