@@ -8,6 +8,7 @@ services:
       - .:/var/www
       - .env:/var/www/.env:ro #ro read only
     working_dir: /var/www
+    entrypoint: ["php"]
     depends_on:
       - mysql
     networks:

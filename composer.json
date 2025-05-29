@@ -6,7 +6,8 @@
         "php": "^8.2",
         "vlucas/phpdotenv": "^5.5",
         "smarty/smarty": "^4.3",
-        "nikic/fast-route": "^1.3"
+        "nikic/fast-route": "^1.3",
+        "fakerphp/faker": "^1.24"
     },
     "autoload": {
         "files": ["config/helpers.php"],

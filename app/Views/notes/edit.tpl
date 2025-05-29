@@ -14,7 +14,7 @@
 
                 <div class="mb-3">
                     <label for="content" class="form-label">Tartalom</label>
-                    <textarea name="content" id="content" class="form-control" rows="6" required>{$note.content|escape|default:''}</textarea>
+                    <textarea name="content" id="content" class="form-control" rows="6" required>{$note.content|strip_tags|escape|default:''}</textarea>
                 </div>
 
                 <div class="mb-3">

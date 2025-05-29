@@ -72,11 +72,15 @@
         <h4>Pinned Notes</h4>
         {if $pinned_notes|@count > 0}
             {foreach from=$pinned_notes item=note}
-                <div class="card mb-2" style="background-color: {$note.color};">
-                    <div class="card-body">
-                        <h5 class="card-title">{$note.title}</h5>
-                        <p class="card-text">{$note.content|truncate:100}</p>
-                        <a href="/notes/edit/{$note.id}" class="btn btn-sm btn-outline-dark">Edit</a>
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-3">
+                    <div class="card h-100" style="background-color: {$note.color|escape};">
+                        <div class="card-body">
+                            <h5 class="card-title">{$note.title|escape}</h5>
+                            <p class="card-text">
+                                {$note.content|strip_tags|truncate:30:"..."}
+                            </p>
+                            <a href="/notes/edit/{$note.id}" class="btn btn-sm btn-outline-dark">Edit</a>
+                        </div>
                     </div>
                 </div>
             {/foreach}

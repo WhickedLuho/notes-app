@@ -53,7 +53,7 @@ switch ($routeInfo[0]) {
         break;
     case FastRoute\Dispatcher::FOUND:
         $handler = $routeInfo[1];
-        $vars = $routeInfo[2];        
+        $vars = $routeInfo[2];
         // Handle middleware first
         if (is_array($handler) && isset($handler['middleware'])) {
             foreach ($handler['middleware'] as $middlewareClass) {

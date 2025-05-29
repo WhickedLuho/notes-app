@@ -27,6 +27,10 @@ return [
         [NoteController::class, 'edit'],
         [AuthMiddleware::class],
     ],
+    ['POST', '/notes/save/{id}',
+        [NoteController::class, 'save'],
+        [AuthMiddleware::class],
+    ],
     // Simple closure route
     // ['GET', '/', function() {
     //     return "Hello from your notes app!";
