@@ -5,11 +5,12 @@ class Note extends BaseModel
 {
     protected string $table = 'notes';
 
-    public function saveNote($data)
+    public function saveNote(array $data): bool
     {
-        if (isset($data['id']) && !empty($data['id'])) {
+        if (!empty($data['id'])) {
             $stmt = $this->db->prepare("
-                UPDATE notes SET title = :title, content = :content, color = :color, is_pinned = :is_pinned, is_archieved = :is_archieved, modified_at = NOW()
+                UPDATE notes 
+                SET title = :title, content = :content, color = :color, is_pinned = :is_pinned, is_archieved = :is_archieved, modified_at = NOW()
                 WHERE id = :id AND user_id = :user_id
             ");
         } else {
@@ -24,9 +25,9 @@ class Note extends BaseModel
             ':user_id' => $data['user_id'],
             ':title' => $data['title'],
             ':content' => $data['content'],
-            ':color' => $data['color'] ?? '#FFFFFF',
-            ':is_pinned' => $data['is_pinned'] ?? 0,
-            ':is_archieved' => $data['is_archieved'] ?? 0
+            ':color' => $data['color'],
+            ':is_pinned' => $data['is_pinned'],
+            ':is_archieved' => $data['is_archieved']
         ]);
     }
 
@@ -48,9 +49,12 @@ class Note extends BaseModel
                     AND deleted_at IS NULL 
                     AND is_pinned = 1
                 ORDER BY created_at DESC 
-                LIMIT $limit
+                LIMIT :limit
             ");
-            $stmt->execute([':user_id' => $userId]);
+
+            $stmt->bindValue(':user_id', $userId, \PDO::PARAM_INT);
+            $stmt->bindValue(':limit', (int)$limit, \PDO::PARAM_INT);
+            $stmt->execute();
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
         } catch (\PDOException $e) {
@@ -92,7 +96,7 @@ class Note extends BaseModel
             
             return (int)($result['note_count'] ?? 0);
         } catch (\PDOException $e) {
-            error_log("Database error in getAllNoteCount(): " . $e->getMessage());
+            error_log("Database error in getPinnedNoteCount(): " . $e->getMessage());
             return 0;
         }
     }

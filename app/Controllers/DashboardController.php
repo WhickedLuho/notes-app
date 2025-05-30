@@ -10,11 +10,9 @@ class DashboardController extends BaseController
     {
         $noteModel = new Note($this->db);
 
-        // Last 6 pinned note
         $pinnedNotes = $noteModel->getPinnedByUser($this->user->id, 6);
-        // debug($pinnedNotes);
         $totalNotesCount = $noteModel->getAllNoteCount($this->user->id);
-        $pinnedNotesCount = $noteModel->getPinnedNoteCount($this->user->id, 10000);
+        $pinnedNotesCount = $noteModel->getPinnedNoteCount($this->user->id);
         $archivedNotesCount = $noteModel->getArchivedCount($this->user->id);
         // $tagsCount = $noteModel->getTagCount($this->user->id);
 

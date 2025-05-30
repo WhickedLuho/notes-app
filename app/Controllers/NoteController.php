@@ -33,22 +33,23 @@ class NoteController extends BaseController
         $this->smarty->display('notes/edit.tpl');
     }
 
-    public function save($note)
+    public function save()
     {
-        $noteModel = new Note($this->db);
         $postData = $this->request->post();
 
         $data = [
-            'id' => $note['id'] ?? null,
+            'id' => $postData['id'] ?? null,
             'user_id' => $this->user->id,
-            'title' => $postData['title'],
-            'content' => $postData['content'],
+            'title' => trim($postData['title'] ?? ''),
+            'content' => trim($postData['content'] ?? ''),
             'color' => $postData['color'] ?? '#FFFFFF',
             'is_pinned' => isset($postData['is_pinned']) ? 1 : 0,
             'is_archieved' => isset($postData['is_archieved']) ? 1 : 0
         ];
 
+        $noteModel = new Note($this->db);
         $noteModel->saveNote($data);
+
         header("Location: /notes");
         exit;
     }
@@ -57,7 +58,7 @@ class NoteController extends BaseController
     {
         $noteModel = new Note($this->db);
         $noteModel->softDelete($params['id'], $_SESSION['user']['id']);
-        header("Location: /notes/list");
+        header("Location: /notes");
         exit;
     }
 }
