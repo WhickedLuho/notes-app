@@ -33,45 +33,25 @@ class NoteController extends BaseController
         $this->smarty->display('notes/edit.tpl');
     }
 
-    public function save($post)
+    public function save($note)
     {
         $noteModel = new Note($this->db);
-        debug($post);
-        debug($_POST);
-        exit;
+        $postData = $this->request->post();
+
         $data = [
-            'id' => $post['id'] ?? null,
-            'user_id' => $_SESSION['user']['id'],
-            'title' => $post['title'],
-            'content' => $post['content'],
-            'color' => $post['color'] ?? '#FFFFFF',
-            'is_pinned' => isset($post['is_pinned']) ? 1 : 0,
-            'is_archieved' => isset($post['is_archieved']) ? 1 : 0
+            'id' => $note['id'] ?? null,
+            'user_id' => $this->user->id,
+            'title' => $postData['title'],
+            'content' => $postData['content'],
+            'color' => $postData['color'] ?? '#FFFFFF',
+            'is_pinned' => isset($postData['is_pinned']) ? 1 : 0,
+            'is_archieved' => isset($postData['is_archieved']) ? 1 : 0
         ];
 
         $noteModel->saveNote($data);
-        header("Location: /notes/list");
+        header("Location: /notes");
         exit;
     }
-
-    // public function save(Request $request)
-    // {
-    //     $data = [
-    //         'id' => $request->params['id'] ?? null,
-    //         'user_id' => $_SESSION['user']['id'],
-    //         'title' => $request->input('title'),
-    //         'content' => $request->input('content'),
-    //         'color' => $request->input('color', '#FFFFFF'),
-    //         'is_pinned' => $request->input('is_pinned') ? 1 : 0,
-    //         'is_archieved' => $request->input('is_archieved') ? 1 : 0
-    //     ];
-
-    //     $noteModel = new Note($this->db);
-    //     $noteModel->saveNote($data);
-    //     header("Location: /notes");
-    //     exit;
-    // }
-
 
     public function delete($params)
     {

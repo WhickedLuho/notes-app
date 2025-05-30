@@ -8,12 +8,15 @@ use Dotenv\Dotenv;
 use App\Services\SessionService;
 use App\Helpers\DebugHelper;
 use App\Models\User;
+use App\Core\Request;
+
 
 class BaseController
 {
     protected $db;
     protected $smarty;
     protected $user;
+    protected Request $request;
 
     public function __construct()
     {
@@ -21,9 +24,12 @@ class BaseController
         $this->initDb();
         $this->initSmarty();
         $this->debuggerCheck();
-
+        
         // User management
         $this->checkAuth();
+        
+        // Request handler
+        $this->request = new Request();
     }
 
     protected function loadEnv(): void
