@@ -7,28 +7,34 @@ class Note extends BaseModel
 
     public function saveNote(array $data): bool
     {
-        if (!empty($data['id'])) {
-            $stmt = $this->db->prepare("
-                UPDATE notes 
-                SET title = :title, content = :content, color = :color, is_pinned = :is_pinned, is_archieved = :is_archieved, modified_at = NOW()
-                WHERE id = :id AND user_id = :user_id
-            ");
-        } else {
-            $stmt = $this->db->prepare("
-                INSERT INTO notes (user_id, title, content, color, is_pinned, is_archieved, created_at)
-                VALUES (:user_id, :title, :content, :color, :is_pinned, :is_archieved, NOW())
-            ");
-        }
-
-        return $stmt->execute([
-            ':id' => $data['id'] ?? null,
+        $saveData = [
             ':user_id' => $data['user_id'],
             ':title' => $data['title'],
             ':content' => $data['content'],
             ':color' => $data['color'],
             ':is_pinned' => $data['is_pinned'],
-            ':is_archieved' => $data['is_archieved']
-        ]);
+            ':is_archived' => $data['is_archived']
+        ];
+        
+        if (!empty($data['id'])) {
+            $saveData[':id'] = $data['id'];
+            $stmt = $this->db->prepare("
+                UPDATE notes 
+                SET title = :title, content = :content, color = :color, is_pinned = :is_pinned, is_archived = :is_archived, modified_at = NOW()
+                WHERE id = :id AND user_id = :user_id
+            ");
+        } else {
+            $stmt = $this->db->prepare("
+                INSERT INTO notes (user_id, title, content, color, is_pinned, is_archived, created_at)
+                VALUES (:user_id, :title, :content, :color, :is_pinned, :is_archived, NOW())
+            ");
+        }
+
+        
+
+        return $stmt->execute(
+        $saveData
+        );
     }
 
     public function getAllByUser($userId)
@@ -108,7 +114,7 @@ class Note extends BaseModel
                 SELECT COUNT(id) as count 
                 FROM notes 
                 WHERE user_id = :user_id 
-                AND is_archieved = 1
+                AND is_archived = 1
                 AND deleted_at IS NULL
             ");
             $stmt->execute([':user_id' => $userId]);

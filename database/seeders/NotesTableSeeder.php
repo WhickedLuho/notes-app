@@ -27,7 +27,7 @@ class NotesTableSeeder
                 content, 
                 color, 
                 is_pinned, 
-                is_archieved, 
+                is_archived, 
                 created_at, 
                 modified_at
             ) VALUES (
@@ -36,7 +36,7 @@ class NotesTableSeeder
                 :content, 
                 :color, 
                 :is_pinned, 
-                :is_archieved, 
+                :is_archived, 
                 :created_at, 
                 :modified_at
             )
@@ -52,7 +52,7 @@ class NotesTableSeeder
                 ':content' => $this->generateNoteContent(),
                 ':color' => $colors[array_rand($colors)],
                 ':is_pinned' => rand(0,1), // 20% chance
-                ':is_archieved' => rand(0,1), // 10% chance
+                ':is_archived' => rand(0,1), // 10% chance
                 ':created_at' => $date,
                 ':modified_at' => $this->faker->dateTimeBetween($date)->format('Y-m-d H:i:s')
             ]);

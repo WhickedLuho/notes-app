@@ -14,7 +14,7 @@
         </a>
     </li>
     <li>
-        <a href="/notes/create" class="nav-link {if $activePage == 'note_create'}active{/if}">
+        <a href="/notes/edit" class="nav-link {if $activePage == 'note_create'}active{/if}">
             ➕ Új jegyzet
         </a>
     </li>

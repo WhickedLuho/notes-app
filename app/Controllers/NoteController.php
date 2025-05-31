@@ -20,7 +20,10 @@ class NoteController extends BaseController
     public function edit($params)
     {
         $noteModel = new Note($this->db);
-        $note = null;
+        $note = [
+            'title' => '',
+            'content' => '',
+        ];
 
         if (!empty($params['id'])) {
             $note = $noteModel->getById($params['id'], $this->user->id);
@@ -33,18 +36,17 @@ class NoteController extends BaseController
         $this->smarty->display('notes/edit.tpl');
     }
 
-    public function save()
+    public function save($params)
     {
         $postData = $this->request->post();
-
         $data = [
-            'id' => $postData['id'] ?? null,
+            'id' => $params['id'] ?? null,
             'user_id' => $this->user->id,
             'title' => trim($postData['title'] ?? ''),
             'content' => trim($postData['content'] ?? ''),
             'color' => $postData['color'] ?? '#FFFFFF',
             'is_pinned' => isset($postData['is_pinned']) ? 1 : 0,
-            'is_archieved' => isset($postData['is_archieved']) ? 1 : 0
+            'is_archived' => isset($postData['is_archived']) ? 1 : 0
         ];
 
         $noteModel = new Note($this->db);
