@@ -55,6 +55,7 @@
     <div class="col-md-6">
         <h4>Quick Create Note</h4>
         <form method="POST" action="/notes/save">
+            <input type="hidden" name="csrf_token" value="{$csrf_token}">
             <div class="mb-3">
                 <input type="text" name="title" class="form-control" placeholder="Note title" required>
             </div>
@@ -80,7 +81,7 @@
                             <p class="card-text">
                                 {$note.content|strip_tags|escape|truncate:20:"…":true|nl2br}
                             </p>
-                            <a href="/notes/edit/{$note.id}" class="btn btn-sm btn-outline-dark">Edit</a>
+                            <a href="/notes/edit/{$note.id}" class="btn btn-sm btn-outline-dark">✏️ Edit</a>
                         </div>
                     </div>
                 </div>

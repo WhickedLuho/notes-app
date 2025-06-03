@@ -39,6 +39,6 @@ class SessionService
     public static function isLoggedIn(): bool
     {
         self::start();
-        return isset($_SESSION['user_id']);
+        return !empty($_SESSION['user_id']);
     }
 }

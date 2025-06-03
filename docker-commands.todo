@@ -51,3 +51,4 @@ docker compose run --rm composer install
 
 Seeder:
 docker compose run --rm php database/seed.php 1 10
+docker compose run --rm php php database/seed.php 1 25

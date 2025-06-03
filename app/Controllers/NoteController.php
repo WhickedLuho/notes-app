@@ -30,6 +30,7 @@ class NoteController extends BaseController
         }
 
         $this->smarty->assign([
+            'csrf_token' => $this->generateCsrfToken(),
             'note' => $note,
             'activePage' => 'notes',
         ]);
@@ -39,6 +40,8 @@ class NoteController extends BaseController
     public function save($params)
     {
         $postData = $this->request->post();
+        $this->verifyCsrfToken($postData['csrf_token'] ?? '');
+
         $data = [
             'id' => $params['id'] ?? null,
             'user_id' => $this->user->id,

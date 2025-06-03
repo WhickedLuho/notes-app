@@ -7,6 +7,7 @@
             <h2 class="mb-4">Jegyzet szerkesztése #{$note.id|default:''}</h2>
 
             <form method="POST" action="/notes/save/{$note.id|default:0}">
+                <input type="hidden" name="csrf_token" value="{$csrf_token}">
                 <div class="mb-3">
                     <label for="title" class="form-label">Cím</label>
                     <input type="text" name="title" id="title" class="form-control" value="{$note.title|escape|default:''}" required>

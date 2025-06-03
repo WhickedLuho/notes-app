@@ -28,11 +28,12 @@ class AuthController extends BaseController
     // Process login
     public function login()
     {
-        $this->verifyCsrfToken($_POST['csrf_token'] ?? '');
+        $postData = $this->request->post();
+        $this->verifyCsrfToken($postData['csrf_token'] ?? '');
 
         $user = $this->authService->attemptLogin(
-            $_POST['email'] ?? '',
-            $_POST['password'] ?? ''
+            $postData['email'] ?? '',
+            $postData['password'] ?? ''
         );
 
         if ($user) {
@@ -49,28 +50,30 @@ class AuthController extends BaseController
     public function showRegister()
     {
         $this->smarty->assign([
-            'csrf_token', $this->generateCsrfToken(),
+            'csrf_token' => $this->generateCsrfToken(),
             'activePage' => 'register'
         ]);
+
         $this->smarty->display('auth/register.tpl');
     }
 
     // Process registration
     public function register()
     {
-        $this->verifyCsrfToken($_POST['csrf_token'] ?? '');
+        $postData = $this->request->post();
+        $this->verifyCsrfToken($postData['csrf_token'] ?? '');
         // TODO if for some reason user doesnt successfully registered the token throws an error.
 
         try {
             $user = $this->authService->registerUser([
-                'nickname' => $_POST['nickname'] ?? '',
-                'fullname' => $_POST['fullname'] ?? '',
-                'email' => $_POST['email'] ?? '',
-                'password' => $_POST['password'] ?? ''
+                'nickname' => $postData['nickname'] ?? '',
+                'fullname' => $postData['fullname'] ?? '',
+                'email' => $postData['email'] ?? '',
+                'password' => $postData['password'] ?? ''
             ]);
             
             SessionService::login($user);
-            header('Location: /notes/list');
+            header('Location: /dashboard');
             exit;
             
         } catch (\Exception $e) {

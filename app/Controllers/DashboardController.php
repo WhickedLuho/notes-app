@@ -24,6 +24,7 @@ class DashboardController extends BaseController
         ];
 
         $this->smarty->assign([
+            'csrf_token' => $this->generateCsrfToken(),
             'stats' => $stats,
             'pinnedNotes' => $pinnedNotes,
             'activePage' => 'dashboard'

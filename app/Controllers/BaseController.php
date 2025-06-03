@@ -10,7 +10,6 @@ use App\Helpers\DebugHelper;
 use App\Models\User;
 use App\Core\Request;
 
-
 class BaseController
 {
     protected $db;
@@ -110,7 +109,7 @@ class BaseController
 
     protected function checkAuth(): void
     {
-        if (SessionService::isLoggedIn() && !empty($_SESSION['user_id'])) {
+        if (SessionService::isLoggedIn()) {
             // So we have a logged in user
             $this->getUser();
         }

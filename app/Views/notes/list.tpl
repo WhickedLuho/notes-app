@@ -15,7 +15,7 @@
                         <p class="card-text">
                             {$note.content|strip_tags|escape|truncate:30:"…":true|nl2br}
                         </p>
-                        <a href="/notes/edit/{$note.id}" class="btn btn-sm btn-outline-dark">✏️ Szerkesztés</a>
+                        <a href="/notes/edit/{$note.id}" class="btn btn-sm btn-outline-dark">✏️ Edit</a>
                     </div>
                 </div>
             </div>

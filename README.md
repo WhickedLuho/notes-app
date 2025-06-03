@@ -131,6 +131,9 @@ CREATE TABLE notes (
     deleted_at DATETIME DEFAULT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id)
 );
+
+SET time_zone = '+02:00'; -- vagy például 'Europe/Budapest'
+
 ```
 
 ---

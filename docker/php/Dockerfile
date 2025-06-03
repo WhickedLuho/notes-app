@@ -11,3 +11,4 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Smarty telepítése Composerrel
 WORKDIR /var/www/html
 RUN composer require smarty/smarty
+CMD ["php-fpm"]

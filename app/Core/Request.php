@@ -16,7 +16,7 @@ class Request
         $this->files  = $_FILES;
     }
 
-    // Request methodok
+    // Request methods
     public function method(): string
     {
         return strtoupper($this->server['REQUEST_METHOD'] ?? 'GET');
@@ -37,7 +37,7 @@ class Request
         return strtolower($this->server['HTTP_X_REQUESTED_WITH'] ?? '') === 'xmlhttprequest';
     }
 
-    // Inputok lekérése
+    // Inputs
     public function input(string $key, $default = null, string $type = 'string', string $from = 'any')
     {
         $value = match($from) {
@@ -73,7 +73,7 @@ class Request
         return $this->sanitizeArray($this->post, $filters);
     }
 
-    // Input szűrés
+    // Input filter
     protected function sanitize($value, string $type = 'string')
     {
         if (is_array($value)) {
@@ -104,7 +104,7 @@ class Request
         return $clean;
     }
 
-    // Fájlkezelés
+    // Filehandler
     public function file(string $key): ?array
     {
         if (!isset($this->files[$key])) return null;
@@ -118,13 +118,7 @@ class Request
         ];
     }
 
-    // CSRF védelem
-    public function validateCsrfToken(string $token): bool
-    {
-        return isset($_SESSION['csrf_token']) && hash_equals($_SESSION['csrf_token'], $token);
-    }
-
-    // Szerverváltozók
+    // Server
     public function server(string $key, $default = null, string $type = 'string')
     {
         return $this->sanitize($this->server[$key] ?? $default, $type);
