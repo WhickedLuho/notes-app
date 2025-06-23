@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 use App\Services\AuthService;
 use App\Services\SessionService;
+use App\Models\Mailer;
 
 class AuthController extends BaseController
 {
@@ -39,6 +40,8 @@ class AuthController extends BaseController
         if ($user) {
             SessionService::login($user);
             header('Location: /dashboard');
+            $this->sendLoginNotificationMail($user->toArray()); // In background
+
             exit;
         } else {
             $this->smarty->assign('error', 'Invalid credentials');
@@ -87,5 +90,31 @@ class AuthController extends BaseController
     {
         SessionService::logout();
         header('Location: /');
+    }
+
+    protected function sendLoginNotificationMail($userData) 
+    {
+        $this->smarty->assign(['user' => $userData]);
+        $body = $this->smarty->fetch('mail/login_notify.tpl');
+
+        $payload = [
+            'to' => $_ENV['ADMIN_MAIL'],
+            'subject' => 'Notes App - Login Notification',
+            'body' => $body,
+            'config' => [
+                'SMTP_HOST' => $_ENV['SMTP_HOST'],
+                'SMTP_USER' => $_ENV['SMTP_USER'],
+                'SMTP_PASS' => $_ENV['SMTP_PASS'],
+                'SMTP_PORT' => $_ENV['SMTP_PORT'],
+                'SMTP_SECURE' => $_ENV['SMTP_SECURE'],
+                'SMTP_FROM_EMAIL' => $_ENV['SMTP_FROM_EMAIL'],
+                'SMTP_FROM_NAME' => $_ENV['SMTP_FROM_NAME'],
+            ]
+        ];
+
+        $scriptPath = escapeshellarg(__DIR__ . '/../../workers/send_login_mail.php');
+        $userPayload = escapeshellarg(json_encode($payload));
+
+        exec("php $scriptPath $userPayload > /dev/null 2>&1 &");
     }
 }
